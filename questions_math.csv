@@ -1,0 +1,31 @@
+﻿id,question,options,answer,points,topic,difficulty
+1,2 + 3 = ?,4||5||6||7,B,1,Toán,easy
+2,12 : 3 = ?,4||5||3||6,A,1,Toán,easy
+3,7 x 6 = ?,36||42||48||56,B,1,Toán,easy
+4,Tính chu vi tam giác đều có cạnh bằng 4?,10||11||12||13,C,1,Toán,easy
+5,15 ÷ 3 x 9  = ?,3||4||5||6,C,1,Toán,easy
+6,Số nào là số nguyên tố,9||15||17||21,C,1,Toán,easy
+7,Ước chung lớn nhất của 18 và 24,3||6||9||12,B,1,Toán,easy
+8,Bội chung nhỏ nhất của 6 và 8,12||18||24||48,C,1,Toán,easy
+9,Giải x + 5 = 12 thì x bằng,5||6||7||8,C,1,Toán,easy
+10,Diện tích hình chữ nhật 5 cm x 7 cm,35||24||12||70,A,1,Toán,easy
+11,Chu vi hình vuông cạnh 6 cm,12||18||24||36,C,1,Toán,easy
+12,Tìm x biết 3x + 7 = 28,5||6||7||8,C,1,Toán,medium
+13,Diện tích tam giác đáy 12 cm cao 9 cm là bao nhiêu cm^2,36||48||54||72,C,1,Toán,medium
+14,25% của 200 bằng,25||40||50||80,C,1,Toán,medium
+15,Tổng ba góc trong tam giác bằng bao nhiêu độ,90||120||180||270,C,1,Toán,medium
+16,Cạnh huyền của tam giác vuông có hai cạnh 6 và 8,10||12||14||16,A,1,Toán,medium
+17,Dạng thập phân của 3/4,0.25||0.5||0.75||1.25,C,1,Toán,medium
+18,Giải 2x - 4 = 10 thì x bằng,5||6||7||8,C,1,Toán,medium
+19,Số lớn nhất trong các số sau,0.29||0.3||0.28||0.27,B,1,Toán,medium
+20,Diện tích hình tròn bán kính 7 cm (π≈3.14),133.28||153.86||201.06||314,B,1,Toán,medium
+21,"Trung bình cộng của các số 5, 7, 9",6||7||8||9,B,1,Toán,medium
+22,15% viết dưới dạng phân số tối giản,3/50||15/100||3/20||1/5,C,1,Toán,medium
+23,"Số tiếp theo trong dãy 2, 4, 8, 16",18||24||32||36,C,1,Toán,medium
+24,Giá trị tuyệt đối của -9,9||-9||0||1,A,1,Toán,medium
+25,Hệ phương trình có x+y=5 và x^2+y^2=13. Tính xy?,4||5||6||7,C,1,Toán,hard
+26,Tính lim_{x→0} (sin(3x)−3x)/x^3?,-9/2||-3/2||0||9/2,A,1,Toán,hard
+27,Phần dư của 7^2025 khi chia cho 100 là bao nhiêu?,1||7||25||43,B,1,Toán,hard
+28,"Bán kính đường tròn ngoại tiếp tam giác có cạnh 13,14,15 bằng bao nhiêu?",455/56||14/3||15/2||13/2,A,1,Toán,hard
+29,Giá trị của ∫_0^{π/2} ln(sin x) dx bằng?,-(π/2)ln2||-πln2||-ln2||0,A,1,Toán,hard
+30,Giải phương trình |2x-5|=9 có nghiệm nào,7 và -2||7 và 2||9 và -7||14 và -4,A,1,Toán,hard
