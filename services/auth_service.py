@@ -1,13 +1,8 @@
 from sqlalchemy.orm import Session
-from models.user import User
+from repositories.user_repo import get_by_code
 
 def login(db: Session, code: str, password: str):
-    user = db.query(User).filter(User.code == code, User.password == password).first()
-    if user and user.is_approved:
-        return {
-            "id": user.id,
-            "code": user.code,
-            "name": user.name,
-            "role": user.role
-        }
-    return None
+    u = get_by_code(db, code)
+    if not u or u.password != password:
+        return None
+    return {"code": u.code, "name": u.name, "role": u.role}
