@@ -13,8 +13,6 @@ from pydantic import BaseModel
 from routers import exams as exams_router
 from routers import results as results_router
 from routers import upload
-from routers import user
-from routers import auth_router, user_router
 
 
 app = FastAPI()
@@ -108,6 +106,4 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app.include_router(auth_router.router)
-app.include_router(user_router.router)
 app.include_router(upload.router)
