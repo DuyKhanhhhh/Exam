@@ -3,6 +3,7 @@ from typing import Optional, List, Dict
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 import json, random, time
+from models.mixed_exam import MixedExam
 
 from core.db import SessionLocal
 from models.exam import (
@@ -113,13 +114,24 @@ def preview(payload: PreviewIn, db: Session = Depends(get_db)):
         shuffle_questions=payload.shuffle_questions,
         shuffle_options=payload.shuffle_options,
     )
-    # ✅ trả thêm meta để FE hiển thị
+
+    # ✅ Lưu lịch sử các bộ đề đã trộn
+    for v in versions:
+        mixed = MixedExam(
+            subject=payload.subject,
+            version=v["version"],
+            questions=v["questions"],
+        )
+        db.add(mixed)
+    db.commit()
+
+    # ✅ Trả kết quả cho FE
     return {
         "ok": True,
         "subject": payload.subject,
-        "total": len(pool),                 # Tổng câu trong ngân hàng
-        "n_questions": payload.n_questions, # Số câu mỗi đề
-        "n_versions": payload.n_versions,   # Số mã
+        "total": len(pool),
+        "n_questions": payload.n_questions,
+        "n_versions": payload.n_versions,
         "versions": versions,
     }
 
@@ -276,3 +288,39 @@ def submit(payload: SubmitIn, db: Session = Depends(get_db)):
         "total_points": sub.total_points,
         "details_count": len(details),
     }
+@router.get("/mixed-history")
+def list_mixed_history(limit: int = 50, db: Session = Depends(get_db)):
+    exams = db.query(MixedExam).order_by(MixedExam.created_at.desc()).limit(limit).all()
+    return [
+        {
+            "id": e.id,
+            "subject": e.subject,
+            "version": e.version,
+            "questions_count": len(e.questions or []),
+            "created_at": e.created_at,
+        }
+        for e in exams
+    ]
+
+@router.get("/mixed-history/{exam_id}")
+def get_mixed_exam_detail(exam_id: int, db: Session = Depends(get_db)):
+    exam = db.query(MixedExam).filter(MixedExam.id == exam_id).first()
+    if not exam:
+        raise HTTPException(status_code=404, detail="Không tìm thấy bộ đề")
+    return {
+        "id": exam.id,
+        "subject": exam.subject,
+        "version": exam.version,
+        "questions": exam.questions,
+        "created_at": exam.created_at,
+    }
+
+
+@router.delete("/mixed-history/{exam_id}")
+def delete_mixed_exam(exam_id: int, db: Session = Depends(get_db)):
+    exam = db.query(MixedExam).filter(MixedExam.id == exam_id).first()
+    if not exam:
+        raise HTTPException(status_code=404, detail="Không tìm thấy bộ đề")
+    db.delete(exam)
+    db.commit()
+    return {"ok": True, "message": f"Đã xóa bộ đề {exam.subject} - Đề {exam.version}"}
