@@ -28,3 +28,4 @@ def get_current_user(
         user = user_repo.get_user(db, user_id)
         return user
     return real_get_current_user
+
