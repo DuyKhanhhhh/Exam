@@ -12,6 +12,7 @@ from pydantic import BaseModel
 from routers import exams as exams_router, exams
 from routers import results as results_router
 from routers import upload
+from routers import user_router
 
 
 app = FastAPI()
@@ -26,6 +27,7 @@ app.include_router(exams_router.router)
 app.include_router(results_router.router)
 app.include_router(upload.router)
 app.include_router(exams.router)
+app.include_router(user_router.router)
 
 # -------- CORS --------
 origins = [
@@ -34,7 +36,7 @@ origins = [
 ]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["http://localhost:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
