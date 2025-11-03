@@ -5,6 +5,11 @@ class LoginReq(BaseModel):
     password: str
 
 class LoginResp(BaseModel):
+    id: int
     code: str
     name: str
     role: str
+    status: str
+
+    class Config:
+        orm_mode = True
