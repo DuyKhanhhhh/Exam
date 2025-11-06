@@ -1,13 +1,10 @@
-from typing import List
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from starlette import status
-
-from core.db import SessionLocal
-from schemas.user import UserCreate, UserUpdate, UserResp
+from typing import List
+from schemas.user import UserCreate, UserResp
 from repositories import user_repo
+from core.db import get_db, SessionLocal
 from services import user_service
-from services.auth_service import get_current_user
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -22,7 +19,7 @@ def get_db():
 def register(payload: UserCreate, db: Session = Depends(get_db)):
     return user_service.register(db, payload.code, payload.name, payload.password, payload.email)
 
-@router.get("/", response_model=List[UserResp])
+@router.get("/", response_model=list[UserResp])
 def list_users(db: Session = Depends(get_db)):
     return user_repo.list_users(db)
 
@@ -48,19 +45,10 @@ def delete_user(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(404, "Không tìm thấy người dùng")
     return {"success": True}
 @router.post("/", response_model=UserResp, status_code=status.HTTP_201_CREATED)
-def create_user_by_admin(
-    payload: UserCreate,
-    db: Session = Depends(get_db),
-    current_user = Depends(get_current_user)
-):
-    if current_user.role != "admin":
-        raise HTTPException(403, "Chỉ quản trị viên mới được tạo tài khoản")
-
+def create_user_by_admin(payload: UserCreate, db: Session = Depends(get_db)):
     if user_repo.get_user_by_code(db, payload.code):
-        raise HTTPException(400, "Mã người dùng đã tồn tại")
-
+        raise HTTPException(400, "Mã đã tồn tại")
     data = payload.dict()
     data["status"] = "approved"
     data["role"] = payload.role or "student"
-
     return user_repo.create_user(db, data)
